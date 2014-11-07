@@ -30,8 +30,10 @@ class LogStash::Outputs::Circonus < LogStash::Outputs::Base
   # All values will be passed through `event.sprintf`
   #
   # Example:
+  # [source,ruby]
   #   ["title":"Logstash event", "description":"Logstash event for %{host}"]
   # or
+  # [source,ruby]
   #   ["title":"Logstash event", "description":"Logstash event for %{host}", "parent_id", "1"]
   config :annotation, :validate => :hash, :required => true, :default => {}
 
