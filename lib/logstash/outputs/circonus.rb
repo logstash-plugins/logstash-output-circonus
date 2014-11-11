@@ -1,12 +1,13 @@
 # encoding: utf-8
 require "logstash/outputs/base"
 require "logstash/namespace"
+require "logstash/json"
 
 
 class LogStash::Outputs::Circonus < LogStash::Outputs::Base
   # This output lets you send annotations to
   # Circonus based on Logstash events
-  # 
+  #
 
   config_name "circonus"
 
@@ -45,7 +46,7 @@ class LogStash::Outputs::Circonus < LogStash::Outputs::Base
     @client = Net::HTTP.new(@uri.host, @uri.port)
     @client.use_ssl = true
     @client.verify_mode = OpenSSL::SSL::VERIFY_NONE
-    
+
   end # def register
 
   public
@@ -53,20 +54,20 @@ class LogStash::Outputs::Circonus < LogStash::Outputs::Base
     # TODO (lusis)
     # batch and flush
     return unless output?(event)
-   
+
     annotation_event = Hash[*@annotation.collect{|k,v| [event.sprintf(k),event.sprintf(v)]}.flatten]
     @logger.warn("Annotation event", :data => annotation_event)
-  
+
     annotation_array = []
     annotation_path = "#{@uri.path}annotation"
     @logger.warn("Annotation path", :data => annotation_path)
     request = Net::HTTP::Post.new(annotation_path)
-    annotation_event['start'] = event["@timestamp"].to_i unless annotation_event['start']
-    annotation_event['stop'] = event["@timestamp"].to_i unless annotation_event['stop']
+    annotation_event['start'] = event.timestamp.to_i unless annotation_event['start']
+    annotation_event['stop'] = event.timestamp.to_i unless annotation_event['stop']
     @logger.warn("Annotation event", :data => annotation_event)
     annotation_array << annotation_event
     begin
-      request.set_form_data(:annotations => annotation_array.to_json)
+      request.set_form_data(:annotations => LogStash::Json.dump(annotation_array))
       @logger.warn(annotation_event)
       request.add_field("X-Circonus-Auth-Token", "#{@api_token}")
       request.add_field("X-Circonus-App-Name", "#{event.sprintf(@app_name)}")
