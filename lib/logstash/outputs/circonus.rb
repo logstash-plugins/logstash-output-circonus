@@ -53,7 +53,7 @@ class LogStash::Outputs::Circonus < LogStash::Outputs::Base
   def receive(event)
     # TODO (lusis)
     # batch and flush
-    return unless output?(event)
+    
 
     annotation_event = Hash[*@annotation.collect{|k,v| [event.sprintf(k),event.sprintf(v)]}.flatten]
     @logger.warn("Annotation event", :data => annotation_event)
