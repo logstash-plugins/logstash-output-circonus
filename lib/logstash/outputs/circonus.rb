@@ -25,7 +25,7 @@ class LogStash::Outputs::Circonus < LogStash::Outputs::Base
   # Annotations
   # Registers an annotation with Circonus
   # The only required field is `title` and `description`.
-  # `start` and `stop` will be set to `event["@timestamp"]`
+  # `start` and `stop` will be set to the event timestamp.
   # You can add any other optional annotation values as well.
   # All values will be passed through `event.sprintf`
   #
@@ -53,7 +53,6 @@ class LogStash::Outputs::Circonus < LogStash::Outputs::Base
   def receive(event)
     # TODO (lusis)
     # batch and flush
-    
 
     annotation_event = Hash[*@annotation.collect{|k,v| [event.sprintf(k),event.sprintf(v)]}.flatten]
     @logger.warn("Annotation event", :data => annotation_event)
