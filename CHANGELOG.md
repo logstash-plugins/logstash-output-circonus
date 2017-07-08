@@ -1,3 +1,9 @@
+# 3.0.2
+  - Docs: Add plugin description
+  
+# 3.0.1
+  - Docs: Bump patch level for doc build
+
 # 3.0.0
   - update to the new plugin api
   - relax constraints on the logstash-core-plugin-api
