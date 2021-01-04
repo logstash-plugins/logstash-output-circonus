@@ -1,6 +1,6 @@
 # Logstash Plugin
 
-[![Travis Build Status](https://travis-ci.org/logstash-plugins/logstash-output-circonus.svg)](https://travis-ci.org/logstash-plugins/logstash-output-circonus)
+[![Travis Build Status](https://travis-ci.com/logstash-plugins/logstash-output-circonus.svg)](https://travis-ci.com/logstash-plugins/logstash-output-circonus)
 
 This is a plugin for [Logstash](https://github.com/elastic/logstash).
 
