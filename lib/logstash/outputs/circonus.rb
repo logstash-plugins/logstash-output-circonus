@@ -12,7 +12,7 @@ class LogStash::Outputs::Circonus < LogStash::Outputs::Base
   config_name "circonus"
 
   # Your Circonus API Token
-  config :api_token, :validate => :string, :required => true
+  config :api_token, :validate => :password, :required => true
 
   # Your Circonus App name
   # This will be passed through `event.sprintf`
@@ -68,7 +68,7 @@ class LogStash::Outputs::Circonus < LogStash::Outputs::Base
     begin
       request.set_form_data(:annotations => LogStash::Json.dump(annotation_array))
       @logger.warn(annotation_event)
-      request.add_field("X-Circonus-Auth-Token", "#{@api_token}")
+      request.add_field("X-Circonus-Auth-Token", "#{@api_token.value}")
       request.add_field("X-Circonus-App-Name", "#{event.sprintf(@app_name)}")
       response = @client.request(request)
       @logger.warn("Circonus convo", :request => request.inspect, :response => response.inspect)

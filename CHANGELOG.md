@@ -1,3 +1,6 @@
+## 3.0.7
+  - Change `api_token` config type to `password` to prevent from leaks in debug logs [#7](https://github.com/logstash-plugins/logstash-output-circonus/pull/7)
+
 ## 3.0.6
   - Fix formatting in doc for conversion to --asciidoctor [#5](https://github.com/logstash-plugins/logstash-output-circonus/pull/5)
 
